@@ -1,0 +1,1738 @@
+package nuevo2;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+import javax.swing.JOptionPane;
+
+import java.nio.file.Paths;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
+
+
+
+
+public class lexer{
+	
+	//FUNCIONES DE JAVA: 
+	//CONTAINS:PERMITE COMPARAR TEXTO
+	//ISEMPTY():DETERMINA SI LA CADENA ESTA VACIA 
+	//LENGTH():DETERMINA LA LONGITUD DE UN TEXTO
+	//FILE:FICHERO
+	//ISFILE(): DEVUELVE UN VALOR BOOLEANO VERDADERO O FALSO
+	//ISDIRECTORY(): DEVUELVE UN VALOR BOOLEANO VERDADERO O FALSO
+	   
+public static void main  (String []arg) { 
+		   
+		
+		
+		File esc; 
+		FileWriter esc2; 
+		PrintWriter esc3;    //DEFINE EL ARCHIVO PARA ESCRITURA
+		BufferedWriter esc4; 
+		
+		File archivo; 
+		FileWriter archivo2; 
+		PrintWriter archivo3; 
+		BufferedWriter archivo4; 
+		
+		File af; 
+		FileReader ar; 		//DEFINE EL ARCHIVO PARA LECTURA
+		BufferedReader br; 
+		
+		
+	
+		
+		
+		try 
+		{ 
+			
+			
+			 
+			  
+			  System.out.println("============================================================="); 
+			  System.out.println("1=ABRIR ARCHIVO CON DIRECCION");
+			  System.out.println("2=INGRESO DE INSTRUCCIONES POR TECLADO");
+			  System.out.println("==============================================================");
+			  Scanner condicion=new Scanner(System.in); 
+			   
+			  
+			 
+			  
+			  
+			  String ingreso=condicion.nextLine();  
+			  
+			 
+			  if (ingreso.equals("1"))
+			  { 
+				  System.out.println("INGRESE LA DIRECCION DEL ARCHIVO"); //PIDA LA DIRECCION DEL ARCHIVO DE TEXTO
+				  Scanner cadena=new Scanner(System.in);				  // QUE CONTIENE INSTRUCCIONES SQL
+				  String entr=cadena.nextLine(); 
+				  
+				  try {
+						File arch=new File(entr);  
+						if (!arch.isDirectory() && !arch.isFile()) //PREGUNTA SI LO QUE INGRESO ES DISTINTO DE UN DIRECTORIO O FICHERO
+						{ 
+							System.out.println("INGRESE LA DIRECCION DEL ARCHIVO");
+							  cadena=new Scanner(System.in);
+							   entr=cadena.nextLine(); 
+							  arch=new File(entr ); 
+							  while (!arch.isDirectory() && !arch.isFile())
+							  { 
+								  System.out.println("INGRESE LA DIRECCION DEL ARCHIVO");
+								  cadena=new Scanner(System.in);
+								   entr=cadena.nextLine(); 
+								  arch=new File(entr ); 
+								 
+							  }
+						}
+					  
+					  
+					  FileReader entr2=new FileReader(arch);
+					    
+						int c=entr2.read();
+						while (c!=-1)		//LOS CARACTERES RECORRIDOS DEVUELVEN UN NUMERO ENTERO CORRESPONDIENTE AL CODIGO UNICODE
+						{ 
+							
+							char letra=(char)c; //EN CASO DE SER UN FICHERO AVANZA CARACETER A CARACTER
+							if (c!=-1)			
+							{ 
+								System.out.print(letra);
+							}
+							c=entr2.read();
+						}
+						entr2.close();
+						
+					} catch (IOException e) 
+				   {
+						
+						String con=entr; 		// CONDICION DE EXCEPCION ENTRA SI LA DIRECCION ES UN DIRECTORIO
+						File f=new File (con); 
+						String dir=entr; 
+						if (f.isDirectory())
+							
+				
+						{ 
+							System.out.println("LA RUTA ESPEIFICADA ES UN DIRECTORIO NO UN ARCHIVO"); 
+							String[] nombre=f.list();
+							for (int h=0; h<nombre.length;h++)
+							{ 
+								if (nombre[h].contains("Nuevo.txt")) //MUESTRA EL ARCHIVO DE TEXTO QUE ESTA DENTRO DE UN DIRECTORIO
+								{ 
+									System.out.println(nombre[h]);
+								}
+							}
+							System.out.println("PARA VER SU CONTENIDO INGRESE EL NOMBRE DEL ARCHIVO");
+							 cadena=new Scanner(System.in); 
+							entr=cadena.nextLine(); 
+							while(!entr.contains("Nuevo.txt"))
+							{ 
+								System.out.println("PARA VER SU CONTENIDO INGRESE EL NOMBRE DEL ARCHIVO");
+								 cadena=new Scanner(System.in); 
+								entr=cadena.nextLine(); 
+								
+							}
+							FileReader entr2=new FileReader(dir+File.separator+entr); 
+							int c= entr2.read();
+							 while (c!=-1)
+							 { 
+								 char letra=(char)c; 
+									if (c!=-1)
+									{ 
+										System.out.print(letra);//MUESTRA EL CONTENIDO DEL ARCHIVO DE TEXTO
+									}
+									c=entr2.read();
+								 
+							 }
+							 entr2.close(); //CIERRA EL ARCHIVO
+						}
+						
+						
+					} 
+				  Thread threads = null;
+				threads.sleep(50000);  //PAUSA EL PROGRAMA CIERTA CANTIDAD DE MILISEGUNDO
+				  System.exit(0);//FINALIZA EL PROGRAMA
+			  }
+			  
+			  
+				 
+			  
+			 
+			  
+			  String text; 
+			  
+			  
+			  
+			  
+				  System.out.println("Ingrese una cadena o Presione Salir/Salir \n");
+				  Scanner cadena=new Scanner(System.in); 
+			       String entr=cadena.nextLine();
+			  
+			  
+			  String[] arreglo=entr.split(""); 
+			   
+			  int  cont2,cont4,cont,error,cont7;   
+			  cont4=0; 
+			   cont2=0; 
+			   cont=0; 
+			   error=0; 
+			   cont7=0; 
+			   
+			   
+			   
+			   esc=new File("simbolos.txt"); 
+				  esc2=new FileWriter(esc); 
+				  esc3=new PrintWriter(esc2); 	//ABRE EL ARCHIVO PARA ESCRITURA
+				  esc4=new BufferedWriter(esc3);
+			   
+			   while (entr.isEmpty())
+			   { 
+				  System.out.println("INGRESE UNA CADENA o PRESIONE salir/Salir \n");
+				   cadena=new Scanner(System.in); 
+				   entr=cadena.nextLine(); 
+				   arreglo=entr.split(""); 
+			   }
+			   for (int x=0; x<arreglo.length;x++)
+				  { 
+				   
+				   for (int j=0; j<arreglo[x].length(); j++)
+					  { 
+						  int ascii =(int) arreglo[x].charAt(j); 
+						  
+						  if (ascii>=39 && ascii<=62 || ascii==46)
+						  {  
+							 
+							 continue; 
+						  }else 
+						  { 
+							  if (ascii>=65 && ascii<=90)
+							  { 
+								  												//RECHAZA LOS CARACTERES ESPECIALES QUE NO INCLUYEEN LA CODIFICACION SQL
+								  continue;
+							  }else 
+							  { 
+								  if (ascii>=97 && ascii<=121  || ascii==32 )
+								  { 
+									  continue; 
+								  }else 
+								  { 
+									  { 
+										  if (ascii==33)
+										  { 
+											  continue; 
+										  }else 
+										  {
+										  System.out.println("EL SIMBOLO "+ arreglo[x].charAt(j)+ " NO ESTA PERMITIDO");
+										  cont=1; 
+										  cont2=cont2+1;
+										  }
+									  }
+								  }
+							  }
+						  }
+					  }
+				  }
+			   
+			   
+		archivo=new File("sintactico.txt"); 
+		archivo2=new FileWriter(archivo); 
+		archivo3=new PrintWriter(archivo2); 
+		archivo4=new BufferedWriter(archivo3); 
+	if (cont==0)
+	{	
+			   
+	while (!entr.contains("salir") && !entr.contains("Salir"))	
+		
+	{ 
+		 cont=0; cont2=0; cont4=0; 
+		 esc=new File("simbolos.txt"); 
+		  esc2=new FileWriter(esc); 
+		  esc3=new PrintWriter(esc2); 
+		  esc4=new BufferedWriter(esc3);
+		  
+			  
+		if (cont==0 && !entr.isEmpty())	
+		{ 
+			  for(int x=0; x<arreglo.length; x++)
+			  { 
+				 
+				  for (int i=0; i<arreglo[x].length(); i++)
+				  { 
+					 
+					  switch(arreglo[x].charAt(i))
+					  { 										//ALMACENA LOS TOKEN EN UN ARCHIVO DE TEXTO PLANO EN ESPECIAL LOS SIMBOLOS ESPECIALES
+					  case '(': 
+					  { 
+						  esc3.println(" "); 								//SIMBOLOS ESPECIALES: PARENTESIS DE APERTURA 
+						  esc3.println("TOKEN PARENTESIS DE APERTURA ( ");	//PARENTESIS DE CIERRE, PUNTO Y COMA, COMA  
+						  													// IGUAL, OPERADORES RELACIONALES	
+						  break; 
+					  } 
+					  case ')': 
+					  { 
+						  esc3.println(" "); 
+						  esc3.println("TOKEN PARENTESIS DE CERRE  ) ");
+						  break;   
+					  }   
+					  case ';': 
+					  { 
+						  esc3.println(" "); 
+						  esc3.println("TOKEN PUNTO Y COMA  ; ");
+						  break; 
+					  } 
+					  case ',': 
+					  { 
+						  esc3.println(" "); 
+						  esc3.println("TOKEN COMA , ");
+						  break; 
+					  } 
+					  case '=': 
+					  { 
+						  esc3.println(" ");
+						  if (x!=0 && (arreglo[x-1].contains("<") || arreglo[x-1].contains(">")))
+						  { 
+							  continue; 
+						  }else 
+						  {  
+							  if (x!=0 && arreglo[x-1].contains("!"))
+							  { 
+								  esc3.print("TOKEN DISTINTO !=");
+							  }else 
+							  {
+							  esc3.println("TOKEN IGUAL = ");
+							  }
+						  }
+						  break; 
+					  } 
+					  case '<': 
+					  { 
+						  esc3.println(" ");
+						  if (arreglo[x+1].contains("="))
+						  { 
+							  esc3.println("TOKEN OPERADOR RELACIONAL MENOR IGUAL <= ");  
+						  }else 
+						  { 
+						  esc3.println("TOKEN OPERADOR RELACIONAL < ");
+						  }
+						  break; 
+					  } 
+					  case '>': 
+					  { 
+						  esc3.println(" ");
+						  if (arreglo[x+1].contains("="))
+						  { 
+							  esc3.println("TOKEN OPERADOR RELACIONAL MAYOR IGUAL >= ");  
+						  }else 
+						  { 
+						  esc3.println("TOKEN OPERADOR RELACIONAL > ");
+						  }
+						  
+						  break; 
+					  }case '.':
+					  { 
+						  esc3.println(" ");
+						  esc3.println("TOKEN �PUNTO . ");
+					  }case '*':  
+					  { 
+						  esc3.println(" ");
+						  esc3.println("*");
+					  }
+					  
+					  default: 
+					  { 
+						 int  ascii =(int) arreglo[x].charAt(i); 
+						 if (ascii==32)
+						 { 
+							 esc3.println(" ");
+							 continue; 
+						 }else 
+						 { 
+							 if (ascii==39)
+							 { 
+								 esc3.print(arreglo[x].charAt(i)); 
+								 cont4=cont4+1; 
+							}else 
+							{ 
+								
+								if (arreglo[x].contains("."))
+								{ 
+									continue; 
+								}else 
+								{
+								  esc3.print(arreglo[x].charAt(i));
+								}
+							}
+								
+								
+						 }
+					  
+					  }
+					  
+					  }
+					  
+				  }
+				  
+			
+			  }
+			  esc3.println(" ");
+			  
+			  
+			 
+			   esc3.close();
+			   esc2.close();
+			  af=new File("simbolos.txt"); 			//ABRE EL ARCHIVO DE TEXTO EN FORMATO DE LECTURA QUE CONTIENE INSTRUCCIOES SQL
+			  ar=new FileReader(af); 
+			  br=new BufferedReader(ar);
+			  int x,j,con10,cont3,cont9=0; con10=0; 
+			  cont3=0; x=0;  
+			  String pal=" ";
+			  int cont6=0; 
+			  while ((text=br.readLine())!=null) 
+			  { 
+				  text=text.toLowerCase();  //TRANSFORME EL TEXTO EN MINUSCULA
+				  if (text.equalsIgnoreCase("group ") || text.equalsIgnoreCase("by ") || text.equalsIgnoreCase("order ")) 
+				  { 
+					  System.out.println("PALABRAS RESERVADAS: TOKEN "+text.toUpperCase()+"\n");  // COMPARA EL TEXTO DEL ARCHIVO CON INSTRUCCIONES VALIDA DE SQL PARA DETECTAR CUALES SON PALABRAS RESERVADAS
+					  archivo3.println(text.toLowerCase()); 
+				  }else 
+				  {  
+				  if (text.equalsIgnoreCase("create ") || text.equalsIgnoreCase("where ") || text.equals("table ") || text.equalsIgnoreCase("from ") || text.equalsIgnoreCase("select ") || text.equalsIgnoreCase("number ") || text.equalsIgnoreCase("string "))
+				  { 
+					 
+					  System.out.println("PALABRAS RESERVADAS TOKEN: "+text.toUpperCase()+"\n"); 
+					 
+						 archivo3.println(text.toLowerCase());   
+					  
+				  }else 
+				  {  
+						 if ((text.equalsIgnoreCase("avg ") || text.equalsIgnoreCase("sum ") || text.equalsIgnoreCase("max ")||text.equalsIgnoreCase("asc ")|| text.equalsIgnoreCase("des ")||text.equalsIgnoreCase("* ")))
+							{ 
+								if (text.equalsIgnoreCase("* "))
+								{ 
+									System.out.println("ESTRELLA DE KLEEN OPERADOR CLAUSURA: "+text.toUpperCase()+"\n");
+								}else 
+								{ 	
+									System.out.println("FUNCION ESPECIAL TOKEN: "+text.toUpperCase()+ "\n");
+								 }
+							 
+							   
+								archivo3.println(text.toLowerCase()); 
+						      }else 
+								 { 
+									 if ((text.equalsIgnoreCase("or ") || text.equalsIgnoreCase("and ")))
+										 { 
+											System.out.println("PALABRA RESERVADAS (OPERADORES) TOKEN: "+text.toUpperCase()+"\n");
+											archivo3.println(text.toLowerCase()); 
+										  }else 
+											 { 
+												 
+												 if ((text.contains("token")))
+													{ 
+														  System.out.println(text.toUpperCase()+"\n"); //MUESTRA LOS TOKEN ESPECIALES
+														  if (text.contains("( "))
+														  { 
+															  archivo3.println("("); 
+														  }else 
+														  { 
+															  if (text.contains("; "))
+															  { 
+																  archivo3.println(";"); 
+															  }else 
+															  { 
+																  if (text.contains(") "))
+																	{ 
+																	  archivo3.println(")"); 
+																	 }else 
+																	 { 
+																		 if (text.contains(", "))
+																		 { 
+																				 archivo3.println(","); 
+																		 }else 
+																		 { 
+																			 if (text.contains("."))
+																			 { 
+																				 archivo3.println(".");
+																			 }else 
+																			 { 
+																				 if (text.contains(">="))
+																				 { 
+																					 archivo3.println(">="); 
+																				 }else 
+																				 { 
+																					 if (text.contains("<="))
+																					 { 
+																						 archivo3.println("<="); 
+																					 }else 
+																					 { 
+																						 if (text.equalsIgnoreCase("TOKEN IGUAL = "))
+																						 { 
+																							 archivo3.println("="); 
+																						 }else 
+																						 { 
+																							archivo3.println("!=");
+																						 }
+																					 }
+																				 }
+																			 }
+																		 }
+																	 }
+															  }
+														  }
+														  
+														  
+													 }else 
+														{ 
+														
+															int ascii=(int) text.charAt(0);
+															 if (ascii>=97 && ascii<=122)
+															 {  
+																 for (x=1; x<text.length();x++)
+																 { 									//REALIZA EL ANALISIS PARA DETERMINAR SI LA PALABRA ES UNA VARIABLE
+																	 ascii=(int) text.charAt(x); 
+																	 if (ascii>=47 && ascii<=57)
+																	 { 
+																		 for (j=x; j<text.length()-1;j++)
+																		 { 
+																			 ascii=(int) text.charAt(j); 
+																			 if (ascii>=47 && ascii<=57)
+																			 { 
+																				 
+																				 continue;  
+																			 }else 
+																			 { 
+																				 
+																				 cont3=1; 
+																			 }
+																		 }
+																		 if (cont3==0)
+																		 { 
+																			 x=text.length()+1; 
+																		 }
+																	 } 
+																 }
+																 if (cont3==0)
+																 { 
+																	
+																	    
+																	   
+																		   archivo3.println("ID");   
+																	   
+																	 	System.out.println("TOKEN VARIABLE "+text.toUpperCase()+"\n"); //MUESTRA EL TOKEN VARIABLE O IDENTIFICADOR
+																		 x=text.length()+1; 
+																		 cont3=0;	
+																		
+																	
+																 }else 
+																 { 
+																	 error=error+1; 
+																	 System.out.println("ERROR NO ES UNA VARIABLE "+text.toUpperCase()+"\n"); //INFORMA SI LA VARIABLE ESTA ESCRITA INCORRECTAMENTE
+																	 cont3=0; 
+																 }
+															 }else 
+															 {
+																 ascii=(int) text.charAt(0); 
+																 if (ascii==39)
+																 { 
+																	 for (x=0; x<text.length();x++)
+																	 { 
+																		 ascii=(int) text.charAt(x); 
+																		 if (ascii==39)
+																		 { 
+																			 cont6=cont6+1; 
+																		 }else 
+																		 { 
+																			 x=text.length()+1; 
+																		 }
+																	 }
+																	 if (cont6==1)
+																	 { 
+																		 cont6=0; 
+																		 for (x=1; x<text.length();x++)
+																		 { 									//REALIZA EL ESTUDIO SI UNA CADENA ES UN STRING O NO (TIPO DE DATOS)
+																			 ascii=(int) text.charAt(x); 
+																			 if (ascii==39)
+																			 { 
+																				 cont6=cont6+1; 
+																			 }
+																		 }
+																		 
+																		 if (cont6==1)
+																		 { 
+																			 System.out.println("CADENA DE STRING: "+text.toUpperCase()+"\n"); //SI ES EL TIPO DE DATOS STRING MUESTRA EL MENSAJE
+																			 archivo3.println("CADENA"); 
+																		 }else 
+																		 { 
+																			 System.out.println("EXPRESION NO VALIDA: "+text.toUpperCase()+"\n"); //INFORMA SOBRE EL CORRESPONDIENTE ERROR
+																			 error=error+1; 
+																		 }
+																		 cont6=0; 
+																	 }else 
+																	 { 
+																		 System.out.println("EXPRESION NO VALIDA: "+text.toUpperCase()+"\n");
+																		 error=error+1; 
+																	 }
+																	 
+																 }else 
+																 { 	 
+																	 
+																 { 
+																 
+															 
+															 for ( x=0; x<text.length();x++) 
+															{ 
+																 ascii=(int) text.charAt(x); 
+																	if (ascii==46 && x==0)
+																	{ 
+																		for ( j=1; j<text.length();j++)
+																		{ 
+																			ascii=(int) text.charAt(j); 
+																			if (ascii>=47 && ascii<=57)
+																			{ 
+																				 cont9=1; 
+																			}
+																		}
+																		if (cont9==1)
+																		{ 
+																			System.out.println("EXPRESION NUMERICA "+text+" incorrecta"); //MUSTRA SI EL NUMERO ESTA ESCRITO INCORRECTAMENTE 
+																			x=text.length()+1; 
+																		    error=error+1; 
+																		}
+
+																	}else 
+																	{ 
+																		
+																		if (ascii>=47 && ascii<=57) 
+																	 {  
+														                for ( j=0;j<text.length()-1;j++ )
+														                { 
+														                	ascii=(int) text.charAt(j); 
+														                	if (ascii>=46 && ascii<=57)
+														                	{ 
+														                		 con10=1; 
+														                	}else 
+														                	{ 
+														                	 con10=0; 
+														                	}
+														                }
+														                if (con10==1) 
+														                { 
+														                	if ((text.charAt(j-1))=='.')
+														                	{ 
+														                		System.out.println("EXPRESION NUMERICA NO VALIDA "+text+"\n"); //MUESTRA EL ERROR SI  EL NUMERO TERMINA CON UN PUNTO
+														                		x=text.length()+1; 
+														                		error=error+1; 
+														                	}else 
+														                	{ 
+														                	System.out.println("TOKEN NUMERO "+text+"\n"); //MUESTRA EL TOKEN NUMERO
+														                	archivo3.println("NUMERO"); 
+														                	x=text.length()+1; 
+														                	con10=0; 
+														                	}
+														                }else 
+														                { 
+														                	System.out.println("EXPRESION INCORRECTA "+text+"\n");
+														                	x=text.length()+1;
+														                	con10=0; 
+														                	error=error+1; 
+														                }
+																	 }
+																   }
+												       			}	
+															} 
+														   } 
+														  }
+														 }
+												   	 }			
+										          }
+								         } 
+				                   }
+				  
+			  	              } 
+			  archivo3.close(); 
+			  archivo4.close();
+			  
+			    
+			  	File sintactico; 
+				FileReader sintactico2; 		//DEFINE EL ARCHIVO PARA LECTURA
+				BufferedReader sintactico3; 
+				
+				text=" "; 
+				 
+				sintactico=new File("sintactico.txt"); 			//ABRE EL ARCHIVO DE TEXTO EN FORMATO DE LECTURA QUE CONTIENE INSTRUCCIOES SQL
+				sintactico2=new FileReader(sintactico); 
+				sintactico3=new BufferedReader(sintactico2);
+				int par=0; int par2=0;  
+				boolean bool=true; 
+				while (((text=sintactico3.readLine())!=null))
+				{ 
+					if (text.equalsIgnoreCase("create "))
+					{ 
+						
+						text=sintactico3.readLine();
+						if (text.equalsIgnoreCase("table "))
+						{ 
+							
+							text=sintactico3.readLine(); 
+							if (text.equalsIgnoreCase("ID"))
+							{ 
+								
+								text=sintactico3.readLine(); 
+								
+								if (text!=null)							//verifica que venga la cadena create table id
+								{ 
+									if (text.equalsIgnoreCase("("))
+									{ 
+										par=par+1; 
+										
+										while (((text=sintactico3.readLine())!=null) && text.contains("("))
+										{   
+											 
+											par=par+1; //cuenta la cantidad de parentesis de apertura
+										}
+										 
+									
+
+										while ((text !=null))
+										{ 	
+											if (text.equalsIgnoreCase("ID"))
+												{ 
+													text=sintactico3.readLine();   //compara para quevenga ID+tipo de dato
+													
+													
+													if (text.contains("number") || text.contains("string"))
+														{ 
+														 text=sintactico3.readLine(); 
+														if (text.contains(","))
+														{ 
+															text=sintactico3.readLine(); 
+															if (text.contains(")"))
+															{ 								
+																bool=false; par=0; par2=0;
+																
+																while (text != null)		
+																{ 
+																	text=sintactico3.readLine(); 
+																}
+															}
+														}else 
+														{ 
+															if (text.contains(")"))
+															{ 
+																while ((text !=null && text.contains(")")))
+																{ 
+																	par2=par2+1; 
+																	text=sintactico3.readLine(); //cuenta los parentesis de cierre
+																}
+										
+																if (text != null)
+																{  
+																	if (text.contains(";"))
+																	{   
+																		int coma2=0; 
+																		while ((text != null && text.contains(";")))
+																		{ 
+																			coma2=coma2+1; 
+																			text=sintactico3.readLine(); 
+																		}
+																		if (text==null) 
+																		{ 
+																			bool=true; 
+																		}
+																		if (coma2>1)
+																		{ 
+																			bool=false; //cuenta la cantidad de punto y coma
+																			par=0; par2=0;
+																		}
+																		
+																		
+																	}else 
+																	{ 
+																		bool=false; 
+																		while (text != null)
+																		{ 
+																			text=sintactico3.readLine(); 
+																		}
+																		par=0; par2=0;
+																	} 
+																}else 
+																{ 
+																	bool=false;
+																}
+															}else 
+															{ 
+																bool=false; 
+																while (text != null)
+																 { 
+																	 text=sintactico3.readLine();
+																 }
+																par=0; par2=0;
+																
+															}
+														}
+														
+													}else 
+													{ 
+														bool=false; 
+														while (text != null)
+														 { 
+															 text=sintactico3.readLine();
+														 }
+														par=0; par2=0; 
+													}
+												 }else 
+												 { 
+													 bool=false; 
+													 while (text != null)
+													 { 
+														 text=sintactico3.readLine();
+													 }
+													 par=0; par2=0; 
+												 }
+											
+										}
+									
+										if (par != par2)
+										{ 
+											bool=false; 
+											if (par>par2)
+											{ 
+												System.out.println("Falta CERRAR PARENTESIS\n");
+											}else 
+											{ 
+												System.out.println("FALTA ABRIR PARENTESIS\n");
+											}
+										}
+										
+								if (bool==true)
+								{ 
+									System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+								}else 
+								{ 
+									System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+								}
+										
+										
+										
+									}else 
+									{ 
+										System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+										System.out.println("NO HABRIO PARENTESIS\n");
+									}
+								}	
+								
+							}else 
+							{ 
+								System.out.println("SINTAXIS INCORRECTO\n"); //muestra mensaje si lo que llego despues del table no es un ID
+							}
+							
+						}else  
+						{ 
+							System.out.println("SINTAXIS INCORRECTO\n");
+						}
+					}else 
+					{ 
+						bool=true; 
+						if (!text.contains("select "))
+						{ 
+							if (text.equalsIgnoreCase("from "))
+							{ 
+								text=sintactico3.readLine(); 
+								if (text!=null)						//verifica que venga primero un from
+								{ 
+									while (text!=null)
+									{ 
+										if (text.equalsIgnoreCase("ID"))
+										{ 
+											text=sintactico3.readLine(); 
+											if (text!=null)
+											{ 
+												if (text.equalsIgnoreCase(","))
+												{ 									
+													text=sintactico3.readLine(); 
+													if (text==null)
+													{ 
+														System.out.println("SINTAXIS INCORRECTA\n");//MUESTRA MENSAJE SI DESPUES DE LA COMA NO VIENE NADA
+														bool=false; 
+													}
+												}else 
+												{ 
+													System.out.println("SINTAXIS INCORRECTA\n");
+													bool=false; 
+													while(text!=null)
+													{ 
+														text=sintactico3.readLine(); 
+													}
+												}
+											}
+										}else 
+										{ 
+											System.out.println("SINTAXIS INCORRECTA\n");
+											bool=false; 
+											while (text!=null)
+											{ 
+												text=sintactico3.readLine(); 
+											}
+										}
+										 
+									}
+									if (bool==true)
+									{ 
+										System.out.println("SINTAXIS CORRECTO\n");
+									}
+									
+								}else 
+								{ 
+									System.out.println("SINTAXIS INCORRECTA\n");
+									System.out.println("SENTENCIA CORRECTA from [NOMBRE DE TABLA]\n");
+								}
+							}else 
+							{ 
+								
+								if (text.equalsIgnoreCase("where "))
+								{ 
+																				//LA CONDICION DEL WHERE
+									par=0; text=sintactico3.readLine(); par2=0; 
+									while (text!=null)
+									{ 
+										if (text.equalsIgnoreCase("("))
+										{
+											while (text!=null && text.equalsIgnoreCase("("))
+											{ 
+												par=par+1; 
+												text=sintactico3.readLine(); 
+											}	
+										}
+										
+										if (text!=null)
+										{ 					// en la condicion pueden venir un ID o funcion de agregado
+											if (text.equalsIgnoreCase("ID")|| text.equalsIgnoreCase("sum ")|| text.equalsIgnoreCase("max ")|| text.equalsIgnoreCase("avg "))
+											{ 
+												if (text.equalsIgnoreCase("sum ")|| text.equalsIgnoreCase("max ")|| text.equalsIgnoreCase("avg "))
+												{ 
+													
+													text=sintactico3.readLine(); 
+													if (text!=null)
+													{ 
+														if (text.equalsIgnoreCase("("))  //SI ES UNA FUNCION DE AGREGADO TIENE QUE TENER PARENTESIS
+														{ 
+															while (text!=null && text.equalsIgnoreCase("("))
+															{ 
+																par=par+1;
+																text=sintactico3.readLine();
+															} 
+															 if (text!=null)
+															 { 
+																 if (text.equalsIgnoreCase("ID"))
+																 { 
+																	 text=sintactico3.readLine();    
+																	 if (text!=null)
+																	 { 
+																		 if(text.equalsIgnoreCase("."))
+																		 { 
+																			 text=sintactico3.readLine(); 
+																			 if (text!=null)
+																			 { 
+																				 if(text.equalsIgnoreCase("ID"))
+																				 { 
+																					 text=sintactico3.readLine( );
+																				 }
+																			 }
+																		 }
+																	 }
+																	 if (text!=null)
+																	 { 
+																		 if (text.equalsIgnoreCase(")"))
+																		 { 
+																			 while (text!=null && text.equalsIgnoreCase(")"))
+																			 { 
+																				 par2=par2+1;
+																				 text=sintactico3.readLine();
+																			 }
+																		 }
+																	 }
+																 }
+															 }
+														}
+													}
+												}else 
+												{ 
+													text=sintactico3.readLine(); 
+												}
+												
+												
+									
+												if (text!=null)
+												{ 
+														//OPERADORES RELACIONALES
+													if (text.equalsIgnoreCase("<=")|| text.equalsIgnoreCase(">=")|| text.equalsIgnoreCase("=") || text.equalsIgnoreCase("!=")||text.equalsIgnoreCase("<")||text.equalsIgnoreCase(">"))
+													{ 
+														text=sintactico3.readLine();
+														if (text!=null)
+														{ 
+															if (text.equalsIgnoreCase("ID")||text.equalsIgnoreCase("CADENA")||text.equalsIgnoreCase("NUMERO"))
+															{ 
+																text=sintactico3.readLine(); 
+											
+																if (text!=null)
+																{  
+																	
+																	if (text.equalsIgnoreCase(")"))
+																	{ 
+																		while ((text!=null) && (text.equalsIgnoreCase(")")))
+																		{ 
+																			par2=par2+1; 
+																			text=sintactico3.readLine(); 
+																		}
+																		if (text==null)
+																		{ 
+																			if (par!=par2)
+																			{ 
+																				System.out.println("SINTAXIS INCORRECTA");
+																			}else 
+																			{ 
+																				System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																			}
+																		}
+																		
+																	}
+																	if (text!=null)
+																	{		//operadores logicos
+																	if (text.contains("or")|| text.contains("and"))
+																	{ 
+																		
+																		text=sintactico3.readLine(); 
+																		if (text==null)
+																		{  System.out.println("SNITAXIS INCORRECTA");//si despues de un operador logico no viene nada
+																			
+																		}
+																		
+																	}
+																 }
+																	
+																}else 
+																{ 
+																	if (par!=par2) 
+																	{ 
+																		if (par2>par2) 
+																		{ 
+																			System.out.println("FALTA ABRIR PARENTESIS\n");
+																		}else 
+																		{ 
+																			System.out.println("FALTA CERRAR PARENTESIS\n");
+																		}
+																		
+																	}else 
+																	{ 
+																		System.out.println("SINTAXIS CORRECTA\n");
+																	}
+																}
+															}else 
+															{ 
+																System.out.println("SINTAXIS INCORRECTA");
+																while (text!=null)
+																{ 
+																	text=sintactico3.readLine(); 
+																}
+															}
+														}else 
+														{ 
+															System.out.println("SINTAXIS INCORRECTA");
+															
+														}
+													}else 
+													{ 
+														System.out.println("SINTAXIS INCORRECTA");
+														while(text!=null)
+														{ 
+															text=sintactico3.readLine(); 
+														}
+													}
+												}else 
+												{ 
+													System.out.println("SINTAXIS INCORRECTA");
+												}
+												
+											}else 
+											{ 
+												
+												System.out.println("SINTAXIS INCORRECTA");
+												while (text!=null)
+												{ 
+													text=sintactico3.readLine(); 
+												}
+											}
+										}
+										
+										
+									}
+								}
+								else 
+								{ 
+									if (text.equalsIgnoreCase("group "))
+									{ 
+										text=sintactico3.readLine(); 
+										if (text!=null) 
+										{ 
+											if (text.equalsIgnoreCase("by "))
+											{ 
+												text=sintactico3.readLine(); 
+												while (text!=null) 
+												{ 
+													if (text.equalsIgnoreCase("ID")) 
+													{ 
+															text=sintactico3.readLine();  
+															if (text!=null) 
+															{ 
+				/*PORCION*/										if (text.equalsIgnoreCase(".")) 
+				/*DEL CODIGO*/										{ 
+				/*DE GROUP by*/										  text=sintactico3.readLine(); 
+																	if (text!=null) 
+																	{ 
+																		if (text.equalsIgnoreCase("ID") )
+																		{ 
+																			text=sintactico3.readLine(); 
+																			if (text==null) 
+																			{ 
+																				System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																			}else 
+																			{ 
+																				if (text.equalsIgnoreCase(",")) 
+																				{ 
+																					text=sintactico3.readLine(); 
+																				}else 
+																				{ 
+																					System.out.println("SINTAXIS INCORRECTO\n");
+																					while (text!=null) 
+																					{ 
+																						text=sintactico3.readLine(); 
+																					}
+																				}
+																			}
+																		}
+																	}
+																}else 
+																{ 
+																	if (text.equalsIgnoreCase(",")) 
+																	{ 
+																		text=sintactico3.readLine();  
+																		if (text==null) 
+																		{ 
+																			System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																		}
+																	}
+																	
+																} 
+															
+															}
+													}else 
+													{ 
+														System.out.println("SINTAXIS INCORRECTO");
+														while (text!=null) 
+															
+														{ 
+															text=sintactico3.readLine(); 
+														}
+													}
+													 
+												}
+											}else 
+											{ 
+												System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+												while (text!=null) 
+												{ 
+													text=sintactico3.readLine(); 
+												}
+											}
+										}else 
+										{ 
+											System.out.println("SINTAXIS INCORRECTO");
+										}
+									}else 
+									{ 
+										if (text.equalsIgnoreCase("order "))
+										{ 
+											text=sintactico3.readLine(); 
+											if (text!=null) 
+											{ 
+												if (text.equalsIgnoreCase("by ")) 
+												{ 
+													text=sintactico3.readLine(); 
+													if (text!=null) 
+													{ 
+														while (text!=null) 
+														{ 
+															if (text.equalsIgnoreCase("ID")) 
+															{ 
+																text=sintactico3.readLine(); 
+																if (text!=null) 
+																{ 
+																	if (text.equalsIgnoreCase("."))
+																	{ 
+																		text=sintactico3.readLine(); 
+																		if (text!=null) 
+																		{ 
+																			if (text.equalsIgnoreCase("ID")) 
+																			{ 
+																				text=sintactico3.readLine(); 
+																				if (text!=null) 
+																				{ 
+																					if (text.equalsIgnoreCase(",")) 
+																					{ 
+																						text=sintactico3.readLine(); 
+																						if (text==null) 
+																						{ 
+																							System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																						}
+																					}else 
+																					{ 
+																						if (text.equalsIgnoreCase("acs ")|| text.equalsIgnoreCase("des "))
+																						{ 
+																							text=sintactico3.readLine(); 
+																							if (text==null) 
+																							{ 
+																								System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																							}else 
+																							{ 
+																								System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n"); 
+																								while (text!=null) 
+																								{ 
+																									text=sintactico3.readLine(); 
+																								}
+																							}
+																						}else 
+																						{ 
+																							System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																							while (text!=null) 
+																							{ 
+																								text=sintactico3.readLine(); 
+																							}
+																						}
+																						
+																					}
+																				}else 
+																				{ 
+																					System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																				}
+																			}
+																			
+																		}else 
+																		{ 
+																			System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																		}
+																	}else 
+																	{ 
+																		if (text.equalsIgnoreCase(",")) 
+																		{
+																			text=sintactico3.readLine(); 
+																			if (text==null)
+																			{ 
+																				System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																			}
+																		}else 
+																		{ 
+																			if (text.equals("asc ")|| text.equalsIgnoreCase("des "))
+																			{ 
+																				text=sintactico3.readLine(); 
+																				if (text==null) 
+																				{ 
+																					System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n"); 
+																				}else 
+																				{ 
+																					System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																					while (text!=null) 
+																					{ 
+																						text=sintactico3.readLine(); 
+																					}
+																				}
+																			}else 
+																			{ 
+																				System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+																				while (text!=null) 
+																				{ 
+																					text=sintactico3.readLine(); 
+																				}
+																			}
+																		}
+																	}
+																	
+																}else 
+																{ 
+																	System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+																}
+															}else 
+															{ 
+																System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+															}
+															
+														}
+														
+														
+														
+													}else 
+													{ 
+														System.out.println("SINTAXIS INCORRECTA\n");
+														System.out.println("FALTA ARGUMENTOS\n");
+													}
+												}else 
+												{ 
+													System.out.println("SINTAXIS INCORRECTO\n");
+												}
+											}else 
+											{ 
+												System.out.println("SINTAXIS INCORRECTO\n");
+											}
+										}
+									}
+								}
+							}	
+									
+										
+						}else 
+						{ 
+							bool=true; 
+							if (text.equalsIgnoreCase("select "))
+							{ 
+								text=sintactico3.readLine(); 
+								if (text!=null)
+								{
+								if (text.equalsIgnoreCase("* "))
+								{ 
+									text=sintactico3.readLine(); 
+									if (text==null) 
+									{ 
+										bool=true; 
+										
+									}else 
+									{ 
+										bool=false; 
+										while (text!=null) 
+										{ 
+											text=sintactico3.readLine();
+										}
+									}
+								}
+								}else 
+								{ 
+									bool=false; 
+									 cont=0; 
+									
+								}
+								
+								
+								while (text!=null)
+								{ 
+									
+									if (text.equalsIgnoreCase("ID"))
+									{ 
+										
+										text=sintactico3.readLine(); 
+									  if (text!=null)
+									  {  
+										  
+										  if (text.equalsIgnoreCase("."))
+										  	{ 
+											  text=sintactico3.readLine();
+											  if (text==null)
+											  { 
+												  bool=false; 
+												 
+											  }else 
+											  {
+										
+												  if (text.equalsIgnoreCase("ID"))
+											  		{ 
+													  continue; 
+											  		}
+											  }
+										  	}else 
+										  	{ 
+										  		if (text.contains(","))
+										  		{ 
+										  			text=sintactico3.readLine(); 
+										  			if (text!=null)
+										  			{	
+										  			
+										  			if (text.contains(",") || text.contains(".") || text.contains(";"))
+										  			{ 
+										  				bool=false; 
+										  				while(text!=null)
+										  				{ 
+										  					text=sintactico3.readLine(); 
+										  				}
+										  			}else 
+										  			{ 
+										  				if (text.contains("number")|| text.contains("string"))
+										  				{  
+										  					bool=false; 
+											  				while(text!=null)
+											  				{ 
+											  					text=sintactico3.readLine(); 
+											  				}
+										  				}else 
+										  				{ 
+										  					if (text.equalsIgnoreCase("avg ") || text.equalsIgnoreCase("sum ") || text.equalsIgnoreCase("max ")) 
+										  					{ 
+										  						text=sintactico3.readLine(); 
+										  						if (text!=null)
+										  						{        par=0; par2=0; 
+										  							if (text.equalsIgnoreCase("("))
+										  							{ 
+										  								text=sintactico3.readLine(); par=par+1;  
+										  								while (text!=null && text.equalsIgnoreCase("("))
+										  								{ 
+										  									par=par+1; 
+										  									text=sintactico3.readLine() ;
+										  								}
+										  								if (text!=null)
+										  								{ 
+										  									if (text.equalsIgnoreCase("ID"))
+										  									{ 
+										  										text=sintactico3.readLine();
+										  										if (text!=null)
+										  										{ 
+										  											if (text.equalsIgnoreCase("."))
+										  											{ 
+										  												text=sintactico3.readLine(); 
+										  												if (text!=null)
+										  												{ 
+										  													if (text.equalsIgnoreCase("ID"))
+										  													{ 
+										  														 
+							
+										  													text=sintactico3.readLine();
+										  													if (text!=null)
+										  													{ 
+										  														if (text.equalsIgnoreCase(")"))
+										  														{ 
+										  															text=sintactico3.readLine(); par2=par2+1; 
+										  															while(text!=null && text.equalsIgnoreCase(")"))
+										  															{ 
+										  																par2=par2+1; 
+										  																text=sintactico3.readLine(); 
+										  															}
+										  															
+										  															if (par!=par2)
+										  															{
+										  																bool=false; 
+										  															}
+										  															
+										  														}
+										  														
+										  													}else 
+										  														{ 
+										  															bool=false; 
+										  														}
+										  												}else 
+										  												{ 
+										  													bool=false; 
+										  												}
+										  													
+										  												}else 
+										  												{ 
+										  													bool=false; 
+										  												}
+										  											}else 
+										  											{ 
+										  												par2=0; 
+										  												if (text.equalsIgnoreCase(")"))
+										  												{ 
+										  													text=sintactico3.readLine(); par2=par2+1;; 
+										  													while (text!=null && text.equalsIgnoreCase(")"))
+										  													{ 
+										  														par2=par2+1; 
+										  														text=sintactico3.readLine(); 
+										  													}
+										  													if (par!=par2)
+										  													{ 
+										  														bool=false; 
+										  														if (par>par2)
+										  														{ 
+										  															System.out.println("FALTA CERRAR PARENTESIS\n");
+										  														}else 
+										  														{ 
+										  															System.out.println("FALTA ABRIR PARENTESIS\n");
+										  														}
+										  														
+										  														
+										  													}
+										  													
+										  												}
+										  											}
+										  											
+										  										}else 
+										  										{ 
+										  											bool=false; 
+										  										}
+										  									}else 
+										  									{ 
+										  										bool=false; 
+										  									}
+										  								}else 
+										  								{ 
+										  									bool=false; 
+										  								}
+										  							}
+										  						}else 
+										  						{ 
+										  							bool=false; 
+										  						}
+										  						
+										  						
+										  						
+										  						
+										  					}else 
+										  					{ 
+										  						bool=false; 
+										  					}
+										  				}
+										  			}
+										  			
+										  		}else 
+										  		{ 
+										  			bool=false; 
+										  		}
+										  			
+										  			
+										  		}else 
+										  		{ 
+										  			bool=false;
+										  		}
+										  	}
+									  	}else 
+									  	{ 
+									  		bool=true; 
+									  		
+									  	}
+										
+									}else 
+									{ 
+										if (text.equalsIgnoreCase("avg ") || text.equalsIgnoreCase("max ") || text.equalsIgnoreCase("sum "))
+										{ 
+											text=sintactico3.readLine();
+											if (text.equalsIgnoreCase("("))
+											{ 
+												par=0; par2=0; 
+												while (text!=null && text.equalsIgnoreCase("("))
+												{ 
+													par=par+1; 
+													text=sintactico3.readLine(); 
+												}
+												if (text!=null)
+												{ 
+													if (text.equalsIgnoreCase("ID"))
+													{ 
+														text=sintactico3.readLine(); 
+														if (text!=null)
+														{ 
+															if (text.equalsIgnoreCase("."))
+															{ 
+																text=sintactico3.readLine(); 
+																if (text!=null)
+																{ 
+																	if (text.equalsIgnoreCase("ID"))
+																	{ 
+																		text=sintactico3.readLine(); 
+																	if (text!=null)
+																	{
+																		while (text!=null && text.equalsIgnoreCase(")"))
+																		{ 
+																			par2=par2+1; 
+																			text=sintactico3.readLine(); 
+																		}
+																		if (par!=par2)
+																		{ 
+																			bool=false; 
+																		}
+																		
+																		
+																	}else 
+																	{ 
+																		bool=false; 
+																	}
+																				
+																	}else 
+																	{ 
+																		bool=false; 
+																	}
+																}else 
+																{ 
+																	bool=false; 
+																}
+															}else 
+															{ 
+																if (text.equalsIgnoreCase(")"))
+																{ 
+																	text=sintactico3.readLine(); 
+																	par2=par2+1; 
+																	if (text!=null)
+																	{ 
+																	while (text!=null && text.equalsIgnoreCase(")"))
+																	{ 
+																		par2=par2+1; 
+																		text=sintactico3.readLine(); 
+																	}
+																 	
+																	if (par!=par2)
+																	{ 
+																		bool=false; 
+																		if (par>par2)
+																		{ 
+																			System.out.println("FALTA CERRAR PARENTESIS");
+																		}else 
+																		{ 
+																			System.out.println("FALTA ABRIR PARENTESIS");
+																		}
+																	}
+																 }	
+																}else 
+																{ 
+																		
+																bool=false; 
+																}
+															}
+															
+														}else 
+														{ 
+															bool=false; 
+														}
+													}else 
+													{ 
+														bool=false; 
+													}
+													
+												}else 
+												{ 
+													bool=false; 
+												}
+											}
+										}
+										text=sintactico3.readLine(); 
+									}
+								}
+								
+								if (bool==true && cont!=0)
+								{ 
+									System.out.println("SINTAXIS ESCRITO CORRECTAMENTE\n");
+								}else 
+								{ 
+									System.out.println("SINTAXIS ESCRITO INCORRECTAMENTE\n");
+								}
+								
+								
+								
+							}
+						}
+					}
+					
+			
+				}
+
+				sintactico3.close(); 
+				
+				
+			
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			   System.out.println("INGRESE UNA CADENA o PRESIONE salir/Salir \n");
+			   cadena=new Scanner(System.in); 	//SOLICITA AL USUARIO QUE VUELVA A INGRESAR INSTRUCCIONES SQL
+			   entr=cadena.nextLine(); 			//ESTA PARTE ES INTERACTIVO
+			   arreglo=entr.split(""); 
+			   
+			   while (entr.isEmpty())
+			   { 
+				   System.out.println("INGRESE UNA CADENA o PRESIONE salir/Salir PARA SALIR\n");
+				   cadena=new Scanner(System.in); 
+				   entr=cadena.nextLine(); 
+				   arreglo=entr.split("");
+			   }
+			  
+			   for (x=0; x<arreglo.length;x++)
+				  { 
+					  for ( j=0; j<arreglo[x].length(); j++)
+					  { 
+						  int ascii =(int) arreglo[x].charAt(j); 
+						  
+					
+						  if (ascii>=39 && ascii<=62 || ascii==46)
+						  {  
+							 
+							 continue; 
+						  }else 
+						  { 
+							  if (ascii>=65 && ascii<=90)
+							  { 
+								  
+								  continue;
+							  }else 
+							  { 
+								  if (ascii>=97 && ascii<=121  || ascii==32 )
+								  { 
+									  continue; 
+								  }else 
+								  { 
+									  { 
+										 if (ascii==33)
+										 { 
+											 continue; 
+										 }else 
+										 { 
+										  System.out.println("EL SIMBOLO "+ arreglo[x].charAt(j)+ " NO ESTA PERMITIDO");
+										  cont=1; 
+										  cont2=cont2+1;
+										 }
+									  }
+								  }
+							  }
+						  }
+					  }
+				  }
+			   
+			   if (cont!=0)
+			   { 
+				   System.out.println("CANTIDAD DE ERRORES "+cont2+"\n");	//MUESTRA CANTIDAD DE ERRORES
+			   }
+			   
+			   
+			   
+               
+			   
+			 
+		}else 
+		{ 
+			
+			
+		}
+	} 
+	System.out.println("CANTIDAD DE ERRORES: "+error); //MUESTRA LA CANTIDAD DE ERRORES INGRESADO
+    Thread.sleep(1000);									//ESTA PARTE CORRESPONDE SOLAMENTE A LOS SIMBOLOS RAROS
+														//COM POR EJEMPLO:ARROBA,NUMERAL,SINGO DE INTERROGACION,ETC.
+ }else 
+ { 
+	System.out.println("CANTIDAD DE ERRORES "+cont2);
+	 
+ }
+			  
+			
+			 
+		}catch(Exception ex)
+		{ 
+			System.out.println("ERROR");
+		}
+}
+
+}
